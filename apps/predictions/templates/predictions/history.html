@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Prediction History - Crop Prediction System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mt-4 mb-4"><i class="fas fa-history me-2"></i>Prediction History</h1>
+        </div>
+    </div>
+
+    <!-- Crop Predictions -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0"><i class="fas fa-seedling me-2"></i>Crop Predictions</h5>
+        </div>
+        <div class="card-body">
+            {% if crop_predictions %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Predicted Crop</th>
+                                <th>Confidence</th>
+                                <th>Location</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for prediction in crop_predictions %}
+                            <tr>
+                                <td>{{ prediction.created_at|date:"M d, Y" }}</td>
+                                <td><strong>{{ prediction.predicted_crop }}</strong></td>
+                                <td>
+                                    <span class="badge bg-success">{{ prediction.confidence_score|floatformat:0 }}%</span>
+                                </td>
+                                <td>{{ prediction.location|default:"—" }}</td>
+                                <td>
+                                    <a href="{% url 'predictions:crop_result' prediction.pk %}"
+                                       class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-eye me-1"></i>View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted text-center py-4">
+                    <i class="fas fa-inbox fa-2x mb-3"></i><br>
+                    No crop predictions yet. <a href="{% url 'predictions:crop_prediction' %}">Make your first prediction</a>
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Soil Classifications -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="fas fa-image me-2"></i>Soil Classifications</h5>
+        </div>
+        <div class="card-body">
+            {% if soil_classifications %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Soil Type</th>
+                                <th>Confidence</th>
+                                <th>Location</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for classification in soil_classifications %}
+                            <tr>
+                                <td>{{ classification.created_at|date:"M d, Y" }}</td>
+                                <td><strong>{{ classification.get_soil_type_display }}</strong></td>
+                                <td>
+                                    <span class="badge bg-warning text-dark">{{ classification.confidence_score|floatformat:0 }}%</span>
+                                </td>
+                                <td>{{ classification.location|default:"—" }}</td>
+                                <td>
+                                    <a href="{% url 'predictions:soil_result' classification.pk %}"
+                                       class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-eye me-1"></i>View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted text-center py-4">
+                    <i class="fas fa-inbox fa-2x mb-3"></i><br>
+                    No soil classifications yet. <a href="{% url 'predictions:soil_classification' %}">Classify your first soil sample</a>
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <a href="{% url 'core:dashboard' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

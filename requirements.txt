@@ -1,0 +1,44 @@
+# Core Django
+Django==5.0.1
+python-dotenv==1.0.0
+psycopg2-binary==2.9.9
+
+# Supabase
+supabase==2.3.0
+
+# Machine Learning
+xgboost==2.0.3
+torch
+torchvision
+scikit-learn==1.4.0
+joblib==1.3.2
+
+# Data Processing  
+pandas==2.1.4
+numpy==1.26.3
+Pillow==10.1.0
+opencv-python
+
+# Image Augmentation
+albumentations
+
+# Utilities
+python-multipart==0.0.6
+reportlab
+matplotlib
+openpyxl
+
+# Forms (compatible versions)
+django-crispy-forms>=2.3
+crispy-bootstrap5
+
+# Development
+pytest
+pytest-django
+pytest-cov
+black
+flake8
+
+# Production
+gunicorn==21.2.0
+whitenoise==6.6.0

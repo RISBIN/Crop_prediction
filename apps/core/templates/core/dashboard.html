@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - CropSmart{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    .feature-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        transition: all 0.4s ease;
+        height: 100%;
+        background: white;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.9);
+        transition: all 0.4s ease;
+    }
+
+    .feature-card:hover::before {
+        transform: scale(1.1);
+        filter: brightness(1);
+    }
+
+    .feature-card.crop::before {
+        background-image: url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=800&auto=format&fit=crop');
+    }
+
+    .feature-card.soil::before {
+        background-image: url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&auto=format&fit=crop');
+    }
+
+    .feature-card.history::before {
+        background-image: url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&auto=format&fit=crop');
+    }
+
+    .feature-card-content {
+        position: relative;
+        padding: 2rem;
+        margin-top: 180px;
+        background: white;
+        border-radius: 0 0 20px 20px;
+    }
+
+    .feature-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .stat-card:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-5px);
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat-label {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 0.5rem;
+    }
+
+    .welcome-badge {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border-radius: 50px;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .activity-item {
+        padding: 1.5rem;
+        border-radius: 12px;
+        background: var(--bg-light);
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .activity-item:hover {
+        background: white;
+        box-shadow: var(--shadow-md);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4 animate-fade-in">
+    <!-- Hero Welcome Section -->
+    <div class="hero-section">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="welcome-badge">
+                    <i class="fas fa-star me-2"></i>Welcome Back!
+                </span>
+                <h1 class="display-4 fw-bold mb-3">
+                    Hello, {{ user.first_name|default:user.username }}! 👋
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Ready to make smarter farming decisions? Use our AI-powered tools to optimize your crop selection and soil analysis.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'predictions:crop_prediction' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-seedling me-2"></i>Start Prediction
+                    </a>
+                    <a href="{% url 'predictions:history' %}" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-history me-2"></i>View History
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center d-none d-lg-block">
+                <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&auto=format&fit=crop"
+                     alt="Farming"
+                     style="border-radius: 20px; max-width: 100%; box-shadow: var(--shadow-xl);">
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">
+                    <i class="fas fa-seedling me-1"></i> Total Predictions
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">
+                    <i class="fas fa-image me-1"></i> Soil Classifications
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <div class="stat-number">{{ user.farm_size|default:"--" }}</div>
+                <div class="stat-label">
+                    <i class="fas fa-map me-1"></i> Farm Size (acres)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stat-card">
+                <div class="stat-number" style="font-size: 1.5rem;">{{ user.location|default:"Not Set" }}</div>
+                <div class="stat-label">
+                    <i class="fas fa-map-marker-alt me-1"></i> Location
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Cards with Images -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card crop">
+                <div class="feature-card-content">
+                    <div class="feature-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Crop Prediction</h4>
+                    <p class="text-muted mb-4">
+                        Get AI-powered recommendations for the best crops to grow based on your soil nutrients, climate, and environmental factors.
+                    </p>
+                    <a href="{% url 'predictions:crop_prediction' %}" class="btn btn-primary w-100">
+                        <i class="fas fa-arrow-right me-2"></i>Start Predicting
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card soil">
+                <div class="feature-card-content">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Soil Classification</h4>
+                    <p class="text-muted mb-4">
+                        Upload soil images and get instant classification using advanced deep learning technology. Know your soil type in seconds.
+                    </p>
+                    <a href="{% url 'predictions:soil_classification' %}" class="btn btn-warning w-100">
+                        <i class="fas fa-camera me-2"></i>Classify Soil
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card history">
+                <div class="feature-card-content">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Prediction History</h4>
+                    <p class="text-muted mb-4">
+                        Access all your previous predictions and soil classifications. Track your farming decisions and insights over time.
+                    </p>
+                    <a href="{% url 'predictions:history' %}" class="btn btn-secondary w-100">
+                        <i class="fas fa-clock me-2"></i>View History
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <h4 class="fw-bold mb-4">
+                <i class="fas fa-clock me-2 text-primary"></i>Recent Activity
+            </h4>
+            <div class="text-center py-5">
+                <div class="mb-3" style="font-size: 4rem; opacity: 0.3;">
+                    <i class="fas fa-inbox"></i>
+                </div>
+                <h5 class="text-muted">No Recent Activity</h5>
+                <p class="text-muted mb-4">
+                    Start making predictions to see your activity here
+                </p>
+                <a href="{% url 'predictions:crop_prediction' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Make Your First Prediction
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

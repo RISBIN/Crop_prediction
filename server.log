@@ -1,0 +1,307 @@
+INFO 2025-10-02 23:02:30,511 autoreload 8843 137168831778944 Watching for file changes with StatReloader
+INFO 2025-10-02 23:04:39,986 basehttp 8843 137168706074304 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:05:15,840 autoreload 8843 137168831778944 /home/user/Desktop/Crop_Prediction/crop_prediction_app/apps/predictions/models.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+October 02, 2025 - 23:02:30
+Django version 5.0.1, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+INFO 2025-10-02 23:05:16,231 autoreload 9593 135056140144768 Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 125, in inner_run
+    autoreload.raise_last_exception()
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/utils/autoreload.py", line 87, in raise_last_exception
+    raise _exception[1]
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/core/management/__init__.py", line 394, in execute
+    autoreload.check_errors(django.setup)()
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/apps/registry.py", line 116, in populate
+    app_config.import_models()
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/apps/config.py", line 269, in import_models
+    self.models_module = import_module(models_module_name)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 991, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1129, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1059, in source_to_code
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/apps/predictions/models.py", line 19
+    temperature = models.FloatField(verbose_name=_('Temperature (�C)'))
+                                                   ^^^^^^^^^^^^^^^^
+SyntaxError: (unicode error) 'utf-8' codec can't decode byte 0xb0 in position 13: invalid start byte
+INFO 2025-10-02 23:05:45,614 autoreload 9593 135056140144768 /home/user/Desktop/Crop_Prediction/crop_prediction_app/apps/predictions/models.py changed, reloading.
+INFO 2025-10-02 23:05:45,971 autoreload 9741 126536538214528 Watching for file changes with StatReloader
+INFO 2025-10-02 23:08:10,101 autoreload 9741 126536538214528 /home/user/Desktop/Crop_Prediction/crop_prediction_app/apps/predictions/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+October 02, 2025 - 23:05:46
+Django version 5.0.1, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+INFO 2025-10-02 23:08:10,494 autoreload 10505 129621748342912 Watching for file changes with StatReloader
+INFO 2025-10-02 23:10:57,173 autoreload 10505 129621748342912 /home/user/Desktop/Crop_Prediction/crop_prediction_app/apps/predictions/admin.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+October 02, 2025 - 23:08:10
+Django version 5.0.1, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+INFO 2025-10-02 23:10:57,600 autoreload 11043 135274374963328 Watching for file changes with StatReloader
+INFO 2025-10-02 23:12:06,169 basehttp 11043 135273897785024 "GET /accounts/login/ HTTP/1.1" 200 5906
+INFO 2025-10-02 23:12:55,713 basehttp 11043 135273897785024 "GET /predictions/crop/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:13:12,990 basehttp 11043 135273897785024 "GET / HTTP/1.1" 200 9862
+WARNING 2025-10-02 23:13:13,391 log 11043 135273897785024 Not Found: /favicon.ico
+WARNING 2025-10-02 23:13:13,392 basehttp 11043 135273897785024 "GET /favicon.ico HTTP/1.1" 404 3372
+INFO 2025-10-02 23:13:31,676 basehttp 11043 135273897785024 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:13:31,707 basehttp 11043 135273897785024 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4162
+INFO 2025-10-02 23:13:31,817 basehttp 11043 135273872606912 "GET /static/admin/css/login.css HTTP/1.1" 200 958
+INFO 2025-10-02 23:13:31,817 basehttp 11043 135273889392320 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2682
+INFO 2025-10-02 23:13:31,819 basehttp 11043 135273897785024 "GET /static/admin/css/base.css HTTP/1.1" 200 21544
+INFO 2025-10-02 23:13:31,819 basehttp 11043 135273855821504 "GET /static/admin/js/theme.js HTTP/1.1" 200 1943
+INFO 2025-10-02 23:13:31,819 basehttp 11043 135273864214208 "GET /static/admin/css/responsive.css HTTP/1.1" 200 17905
+INFO 2025-10-02 23:13:31,819 basehttp 11043 135273880999616 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2025-10-02 23:13:31,828 basehttp 11043 135273872606912 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-10-02 23:13:31,835 basehttp 11043 135273847428800 "GET /static/admin/js/theme.js HTTP/1.1" 200 1943
+INFO 2025-10-02 23:13:31,884 basehttp 11043 135273847428800 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-10-02 23:15:18,148 basehttp 11043 135273897785024 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:15:18,168 basehttp 11043 135273897785024 "GET /admin/ HTTP/1.1" 200 8499
+INFO 2025-10-02 23:15:18,295 basehttp 11043 135273897785024 "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-10-02 23:15:18,302 basehttp 11043 135273897785024 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2025-10-02 23:15:18,304 basehttp 11043 135273872606912 "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-10-02 23:15:18,305 basehttp 11043 135273855821504 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-10-02 23:15:18,309 basehttp 11043 135273855821504 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2025-10-02 23:15:18,310 basehttp 11043 135273847428800 "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2025-10-02 23:15:18,312 basehttp 11043 135273889392320 "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-10-02 23:15:18,364 basehttp 11043 135273897785024 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-10-02 23:15:18,364 basehttp 11043 135273855821504 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-10-02 23:15:24,199 basehttp 11043 135273897785024 "GET /admin/accounts/customuser/add/ HTTP/1.1" 200 16523
+INFO 2025-10-02 23:15:24,238 basehttp 11043 135273897785024 "GET /static/admin/css/forms.css HTTP/1.1" 200 9090
+INFO 2025-10-02 23:15:24,245 basehttp 11043 135273872606912 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 23:15:24,247 basehttp 11043 135273847428800 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 23:15:24,247 basehttp 11043 135273864214208 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9042
+INFO 2025-10-02 23:15:24,253 basehttp 11043 135273855821504 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:24,254 basehttp 11043 135273847428800 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 23:15:24,254 basehttp 11043 135273872606912 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 23:15:24,255 basehttp 11043 135273864214208 "GET /static/admin/js/actions.js HTTP/1.1" 200 8067
+INFO 2025-10-02 23:15:24,261 basehttp 11043 135273283319488 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 23:15:24,263 basehttp 11043 135273830643392 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 23:15:24,263 basehttp 11043 135273839036096 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9042
+INFO 2025-10-02 23:15:24,267 basehttp 11043 135273889392320 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 23:15:24,269 basehttp 11043 135273274926784 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:24,270 basehttp 11043 135273855821504 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-10-02 23:15:24,290 basehttp 11043 135273897785024 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-10-02 23:15:24,297 basehttp 11043 135273847428800 "GET /static/admin/css/widgets.css HTTP/1.1" 200 11800
+INFO 2025-10-02 23:15:24,339 basehttp 11043 135273897785024 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-10-02 23:15:24,369 basehttp 11043 135273274926784 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 23:15:24,370 basehttp 11043 135273830643392 "GET /static/admin/js/actions.js HTTP/1.1" 200 8067
+INFO 2025-10-02 23:15:24,372 basehttp 11043 135273839036096 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 23:15:24,373 basehttp 11043 135273258141376 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-10-02 23:15:24,375 basehttp 11043 135273283319488 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 23:15:24,375 basehttp 11043 135273266534080 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-10-02 23:15:24,377 basehttp 11043 135273274926784 "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-10-02 23:15:24,378 basehttp 11043 135273839036096 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2025-10-02 23:15:25,381 basehttp 11043 135273839036096 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-10-02 23:15:30,137 basehttp 11043 135273897785024 "GET /admin/accounts/userprofile/add/ HTTP/1.1" 200 14194
+INFO 2025-10-02 23:15:30,180 basehttp 11043 135273897785024 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:30,182 basehttp 11043 135273847428800 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-10-02 23:15:30,245 basehttp 11043 135273839036096 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:33,714 basehttp 11043 135273897785024 "GET /admin/predictions/cropprediction/add/ HTTP/1.1" 200 19451
+INFO 2025-10-02 23:15:33,751 basehttp 11043 135273847428800 "GET /static/admin/js/collapse.js HTTP/1.1" 200 1803
+INFO 2025-10-02 23:15:33,754 basehttp 11043 135273897785024 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:33,756 basehttp 11043 135273839036096 "GET /static/admin/js/collapse.js HTTP/1.1" 200 1803
+INFO 2025-10-02 23:15:33,817 basehttp 11043 135273839036096 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:36,613 basehttp 11043 135273897785024 "GET /admin/predictions/fertilizerrecommendation/add/ HTTP/1.1" 200 18945
+INFO 2025-10-02 23:15:36,655 basehttp 11043 135273897785024 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:36,655 basehttp 11043 135273847428800 "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2025-10-02 23:15:36,718 basehttp 11043 135273839036096 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:38,600 basehttp 11043 135273897785024 "GET /admin/predictions/predictionhistory/add/ HTTP/1.1" 200 13126
+INFO 2025-10-02 23:15:38,646 basehttp 11043 135273897785024 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:38,661 basehttp 11043 135273839036096 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:39,943 basehttp 11043 135273897785024 "GET /admin/predictions/soilclassification/add/ HTTP/1.1" 200 15094
+INFO 2025-10-02 23:15:40,064 basehttp 11043 135273897785024 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:40,080 basehttp 11043 135273839036096 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:15:43,008 basehttp 11043 135273897785024 "GET /admin/predictions/predictionhistory/add/ HTTP/1.1" 200 13126
+INFO 2025-10-02 23:15:43,630 basehttp 11043 135273897785024 "GET /admin/predictions/fertilizerrecommendation/add/ HTTP/1.1" 200 18945
+INFO 2025-10-02 23:15:44,222 basehttp 11043 135273897785024 "GET /admin/predictions/cropprediction/add/ HTTP/1.1" 200 19451
+INFO 2025-10-02 23:15:44,801 basehttp 11043 135273897785024 "GET /admin/accounts/userprofile/add/ HTTP/1.1" 200 14194
+INFO 2025-10-02 23:15:45,249 basehttp 11043 135273897785024 "GET /admin/accounts/customuser/add/ HTTP/1.1" 200 16523
+INFO 2025-10-02 23:15:47,301 basehttp 11043 135273897785024 "GET /admin/ HTTP/1.1" 200 8499
+INFO 2025-10-02 23:15:47,476 basehttp 11043 135273897785024 "GET /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:15:47,491 basehttp 11043 135273897785024 "GET /admin/ HTTP/1.1" 200 8499
+WARNING 2025-10-02 23:16:29,146 log 11043 135273897785024 Not Found: /account/register/
+WARNING 2025-10-02 23:16:29,146 basehttp 11043 135273897785024 "GET /account/register/ HTTP/1.1" 404 3390
+WARNING 2025-10-02 23:17:14,896 log 11043 135273249748672 Not Found: /accounts/registe
+WARNING 2025-10-02 23:17:14,896 basehttp 11043 135273249748672 "GET /accounts/registe HTTP/1.1" 404 4178
+WARNING 2025-10-02 23:17:15,010 log 11043 135273249748672 Not Found: /favicon.ico
+WARNING 2025-10-02 23:17:15,010 basehttp 11043 135273249748672 "GET /favicon.ico HTTP/1.1" 404 3372
+INFO 2025-10-02 23:17:28,184 basehttp 11043 135273249748672 "GET /accounts/register HTTP/1.1" 301 0
+INFO 2025-10-02 23:17:28,198 basehttp 11043 135273241355968 "GET /accounts/register/ HTTP/1.1" 200 8884
+INFO 2025-10-02 23:18:36,487 basehttp 11043 135273241355968 "POST /accounts/register/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:18:36,495 basehttp 11043 135273241355968 "GET /accounts/login/ HTTP/1.1" 200 6275
+INFO 2025-10-02 23:18:51,339 basehttp 11043 135273241355968 "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:18:51,348 basehttp 11043 135273241355968 "GET /dashboard/ HTTP/1.1" 200 9348
+INFO 2025-10-02 23:19:02,991 basehttp 11043 135273241355968 "GET /predictions/crop/ HTTP/1.1" 200 9813
+INFO 2025-10-02 23:19:08,014 basehttp 11043 135273241355968 "GET /predictions/soil/ HTTP/1.1" 200 7126
+INFO 2025-10-02 23:19:12,970 basehttp 11043 135273241355968 "GET /predictions/history/ HTTP/1.1" 200 6093
+INFO 2025-10-02 23:19:20,257 basehttp 11043 135273241355968 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:19:22,517 basehttp 11043 135273241355968 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:19:22,532 basehttp 11043 135273241355968 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3681
+INFO 2025-10-02 23:19:22,619 basehttp 11043 135273241355968 "GET /static/admin/css/base.css HTTP/1.1" 200 21544
+INFO 2025-10-02 23:19:22,627 basehttp 11043 135273232963264 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2025-10-02 23:19:22,627 basehttp 11043 135273249748672 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2682
+INFO 2025-10-02 23:19:22,628 basehttp 11043 135272746448576 "GET /static/admin/css/login.css HTTP/1.1" 200 958
+INFO 2025-10-02 23:19:22,631 basehttp 11043 135273241355968 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-10-02 23:19:22,631 basehttp 11043 135272729663168 "GET /static/admin/js/theme.js HTTP/1.1" 200 1943
+INFO 2025-10-02 23:19:22,632 basehttp 11043 135272738055872 "GET /static/admin/css/responsive.css HTTP/1.1" 200 17905
+INFO 2025-10-02 23:19:22,637 basehttp 11043 135272721270464 "GET /static/admin/js/theme.js HTTP/1.1" 200 1943
+INFO 2025-10-02 23:19:22,727 basehttp 11043 135272721270464 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-10-02 23:19:35,253 basehttp 11043 135273241355968 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:19:35,271 basehttp 11043 135273241355968 "GET /admin/ HTTP/1.1" 200 8499
+INFO 2025-10-02 23:19:35,356 basehttp 11043 135273241355968 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2025-10-02 23:19:35,365 basehttp 11043 135273241355968 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-10-02 23:19:35,366 basehttp 11043 135272738055872 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-10-02 23:19:44,431 basehttp 11043 135273241355968 "GET /admin/predictions/cropprediction/ HTTP/1.1" 200 10997
+INFO 2025-10-02 23:19:44,469 basehttp 11043 135273241355968 "GET /static/admin/css/changelists.css HTTP/1.1" 200 6811
+INFO 2025-10-02 23:19:44,477 basehttp 11043 135272746448576 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 23:19:44,478 basehttp 11043 135273249748672 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9042
+INFO 2025-10-02 23:19:44,479 basehttp 11043 135273232963264 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 23:19:44,481 basehttp 11043 135272746448576 "GET /static/admin/js/actions.js HTTP/1.1" 200 8067
+INFO 2025-10-02 23:19:44,485 basehttp 11043 135273232963264 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 23:19:44,488 basehttp 11043 135273249748672 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 23:19:44,489 basehttp 11043 135272738055872 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:19:44,490 basehttp 11043 135272721270464 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 23:19:44,493 basehttp 11043 135272712877760 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 23:19:44,495 basehttp 11043 135272704485056 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9042
+INFO 2025-10-02 23:19:44,499 basehttp 11043 135272721270464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:19:44,500 basehttp 11043 135272729663168 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 23:19:44,501 basehttp 11043 135272738055872 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-10-02 23:19:44,503 basehttp 11043 135272729663168 "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2025-10-02 23:19:44,546 basehttp 11043 135272729663168 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2025-10-02 23:19:44,563 basehttp 11043 135272738055872 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+INFO 2025-10-02 23:19:44,563 basehttp 11043 135273249748672 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-10-02 23:19:44,596 basehttp 11043 135272696092352 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 23:19:44,597 basehttp 11043 135272704485056 "GET /static/admin/js/actions.js HTTP/1.1" 200 8067
+INFO 2025-10-02 23:19:44,599 basehttp 11043 135272201184960 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2025-10-02 23:19:44,602 basehttp 11043 135272712877760 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 23:19:44,603 basehttp 11043 135272721270464 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 23:19:44,604 basehttp 11043 135272209577664 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-10-02 23:19:48,011 basehttp 11043 135272738055872 "GET /admin/accounts/customuser/ HTTP/1.1" 200 14348
+INFO 2025-10-02 23:19:48,054 basehttp 11043 135273249748672 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-10-02 23:19:48,055 basehttp 11043 135272729663168 "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2025-10-02 23:19:48,059 basehttp 11043 135272738055872 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:19:48,069 basehttp 11043 135272209577664 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 23:19:48,081 basehttp 11043 135272738055872 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2025-10-02 23:24:48,994 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:24:51,509 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:25:16,758 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:25:17,771 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:25:17,926 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:25:18,062 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:25:18,222 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:25:18,384 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:25:18,569 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:25:18,703 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:25:18,872 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:01,219 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:07,543 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:08,293 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:08,416 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:26,795 basehttp 11043 135272712877760 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:26:31,382 basehttp 11043 135272209577664 "GET /admin/ HTTP/1.1" 200 8499
+INFO 2025-10-02 23:26:31,446 basehttp 11043 135272209577664 "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-10-02 23:26:31,449 basehttp 11043 135272704485056 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-10-02 23:26:31,453 basehttp 11043 135272201184960 "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2025-10-02 23:26:31,454 basehttp 11043 135272729663168 "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-10-02 23:26:31,455 basehttp 11043 135272209577664 "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-10-02 23:26:31,457 basehttp 11043 135272712877760 "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+INFO 2025-10-02 23:26:31,463 basehttp 11043 135272712877760 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2025-10-02 23:26:31,507 basehttp 11043 135272712877760 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2025-10-02 23:26:31,509 basehttp 11043 135272209577664 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+INFO 2025-10-02 23:26:41,113 basehttp 11043 135272209577664 "GET /admin/ HTTP/1.1" 200 8499
+INFO 2025-10-02 23:26:46,646 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:46,807 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:46,984 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:47,119 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:47,629 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:26:47,780 basehttp 11043 135272209577664 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:27:17,417 basehttp 11043 135273897785024 "GET /dashboard HTTP/1.1" 301 0
+INFO 2025-10-02 23:27:17,421 basehttp 11043 135273897785024 "GET /dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:27:17,434 basehttp 11043 135273897785024 "GET /accounts/login/?next=/dashboard/ HTTP/1.1" 200 11843
+INFO 2025-10-02 23:27:29,583 basehttp 11043 135273897785024 "POST /accounts/login/?next=/dashboard/ HTTP/1.1" 200 12370
+INFO 2025-10-02 23:27:41,275 basehttp 11043 135273897785024 "POST /accounts/login/?next=/dashboard/ HTTP/1.1" 200 12370
+INFO 2025-10-02 23:27:50,006 basehttp 11043 135273897785024 "POST /accounts/login/?next=/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:27:50,012 basehttp 11043 135273897785024 "GET /dashboard/ HTTP/1.1" 200 20531
+INFO 2025-10-02 23:28:05,159 basehttp 11043 135273897785024 "GET /predictions/history/ HTTP/1.1" 200 12274
+INFO 2025-10-02 23:28:14,805 basehttp 11043 135273897785024 "GET /dashboard/ HTTP/1.1" 200 20200
+INFO 2025-10-02 23:28:16,073 basehttp 11043 135273897785024 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:28:20,395 basehttp 11043 135273897785024 "GET /predictions/crop/ HTTP/1.1" 200 15994
+ERROR 2025-10-02 23:28:25,471 log 11043 135273897785024 Internal Server Error: /accounts/profile/
+Traceback (most recent call last):
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/apps/accounts/views.py", line 89, in profile_view
+    return render(request, 'accounts/profile.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Desktop/Crop_Prediction/crop_prediction_app/crop_venv/lib/python3.12/site-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: accounts/profile.html
+ERROR 2025-10-02 23:28:25,472 basehttp 11043 135273897785024 "GET /accounts/profile/ HTTP/1.1" 500 103814
+INFO 2025-10-02 23:28:29,419 basehttp 11043 135273897785024 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:29:02,804 basehttp 11043 135273897785024 "GET / HTTP/1.1" 200 9862
+INFO 2025-10-02 23:29:05,453 basehttp 11043 135273897785024 "GET /dashboard/ HTTP/1.1" 200 20200
+INFO 2025-10-02 23:29:15,328 basehttp 11043 135273897785024 "GET /predictions/soil/ HTTP/1.1" 200 13307
+INFO 2025-10-02 23:29:23,897 basehttp 11043 135273897785024 "GET /dashboard/ HTTP/1.1" 200 20200
+INFO 2025-10-02 23:29:35,015 basehttp 11043 135273897785024 "GET /accounts/profile/ HTTP/1.1" 200 17024
+INFO 2025-10-02 23:29:52,530 basehttp 11043 135273897785024 "GET /accounts/profile/ HTTP/1.1" 200 17024
+INFO 2025-10-02 23:29:53,377 basehttp 11043 135273897785024 "GET /predictions/crop/ HTTP/1.1" 200 15994
+INFO 2025-10-02 23:29:55,957 basehttp 11043 135273897785024 "GET /dashboard/ HTTP/1.1" 200 20200
+INFO 2025-10-02 23:30:07,534 basehttp 11043 135273897785024 "GET /predictions/crop/ HTTP/1.1" 200 15994
+INFO 2025-10-02 23:32:48,329 basehttp 11043 135273897785024 "GET / HTTP/1.1" 200 24520
+INFO 2025-10-02 23:33:18,706 basehttp 11043 135273897785024 "GET /accounts/login HTTP/1.1" 301 0
+INFO 2025-10-02 23:33:18,720 basehttp 11043 135273897785024 "GET /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:33:18,733 basehttp 11043 135273897785024 "GET /dashboard/ HTTP/1.1" 200 20200
+INFO 2025-10-02 23:33:23,421 basehttp 11043 135273897785024 "GET /accounts/register HTTP/1.1" 301 0
+INFO 2025-10-02 23:33:23,429 basehttp 11043 135273897785024 "GET /accounts/register/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:33:23,436 basehttp 11043 135273897785024 "GET /dashboard/ HTTP/1.1" 200 20200
+INFO 2025-10-02 23:33:41,426 basehttp 11043 135273897785024 "GET /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:33:41,434 basehttp 11043 135273897785024 "GET /dashboard/ HTTP/1.1" 200 20200
+INFO 2025-10-02 23:33:43,079 basehttp 11043 135273897785024 "GET /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-10-02 23:33:43,092 basehttp 11043 135273897785024 "GET / HTTP/1.1" 200 24520
+INFO 2025-10-02 23:33:44,961 basehttp 11043 135273897785024 "GET /accounts/login/ HTTP/1.1" 200 12190
+INFO 2025-10-02 23:33:54,057 basehttp 11043 135273897785024 "GET /accounts/register/ HTTP/1.1" 200 14821
