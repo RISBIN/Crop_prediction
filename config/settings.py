@@ -76,7 +76,7 @@ if os.getenv('SUPABASE_DB_HOST'):
     # Supabase PostgreSQL (production)
     db_host = os.getenv('SUPABASE_DB_HOST', '')
     # Use pooler format if using pooler host
-    db_user = 'postgres.pmdrcyjklpcrdleiwkws' if 'pooler' in db_host else 'postgres'
+    db_user = 'postgres.yvpumpbwujslztnnloqv' if 'pooler' in db_host else 'postgres'
 
     DATABASES = {
         'default': {
@@ -121,13 +121,23 @@ STATICFILES_DIRS = []
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (User uploads)
+# Use Supabase Storage for cloud uploads
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Default file storage - use Supabase Storage
+DEFAULT_FILE_STORAGE = 'config.supabase_storage.SupabaseStorage'
 
 # Supabase Configuration
 SUPABASE_URL = os.getenv('SUPABASE_URL', '')
 SUPABASE_KEY = os.getenv('SUPABASE_KEY', '')
 SUPABASE_SERVICE_KEY = os.getenv('SUPABASE_SERVICE_KEY', '')
+
+# Supabase Storage Buckets
+SUPABASE_STORAGE_BUCKETS = {
+    'soil_images': 'soil-images',
+    'profile_pictures': 'profile-pictures'
+}
 
 # ML Model Configuration
 ML_MODELS = {

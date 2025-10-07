@@ -105,36 +105,32 @@ nano .env
 - `SUPABASE_SERVICE_KEY` - Your Supabase service role key
 - `SECRET_KEY` - Django secret key (generate with `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`)
 
-### **Step 4: Setup Supabase Database**
+### **Step 4: Setup Supabase**
 
-**Option 1: Via Supabase Dashboard (Recommended)**
-1. Go to [Supabase SQL Editor](https://supabase.com/dashboard)
-2. Navigate to your project → SQL Editor
-3. Copy contents from `supabase_django_migration.sql`
-4. Paste and click **RUN**
-
-**Option 2: Via Command Line**
+**Configure Supabase Connection:**
+Update `.env` with your Supabase credentials:
 ```bash
-python migrate_to_supabase.py
-# Follow the instructions to copy SQL to Supabase Dashboard
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_KEY=your_anon_key
+SUPABASE_SERVICE_KEY=your_service_key
+SUPABASE_DB_PASSWORD=your_database_password
+SUPABASE_DB_HOST=aws-1-ap-southeast-1.pooler.supabase.com
+SUPABASE_DB_PORT=6543
 ```
 
-This creates:
-- 5 main tables (user_profiles, crop_predictions, soil_classifications, fertilizer_recommendations, prediction_history)
-- Row-Level Security policies
-- Indexes for performance
-- Storage buckets (soil-images, datasets, ml-models) - Already created
+**Create Storage Buckets:**
+1. Go to Supabase Dashboard → Storage
+2. Create two public buckets:
+   - `soil-images` (Public: ON)
+   - `profile-pictures` (Public: ON)
 
 ### **Step 5: Run Migrations**
 
 ```bash
-# Create database migrations
-python manage.py makemigrations
-
-# Apply migrations
+# Apply migrations to Supabase
 python manage.py migrate
 
-# Create superuser for Django admin
+# Create superuser for admin access
 python manage.py createsuperuser
 ```
 
@@ -147,10 +143,14 @@ python manage.py collectstatic --noinput
 ### **Step 7: Run Development Server**
 
 ```bash
-python manage.py runserver
+python manage.py runserver 0.0.0.0:8000
 ```
 
 Visit: **http://127.0.0.1:8000/**
+
+**Login Credentials (if using demo data):**
+- Farmer: `farmer1` / `farmer123`
+- Admin: `admin` / `admin123`
 
 ---
 
@@ -325,20 +325,32 @@ This project is proprietary software for agricultural use.
 
 ---
 
-## 🗃️ Database Setup
+## 🗃️ Database & Storage Setup
 
-The application uses **SQLite** for local development and **Supabase PostgreSQL** for production.
+The application uses **Supabase PostgreSQL** for database and **Supabase Storage** for file uploads.
 
-### Local Development (SQLite)
-- Database: `db.sqlite3`
-- Tables auto-created via Django migrations
-- Perfect for testing and development
+### Database (Supabase PostgreSQL)
+- **Connection**: Via pooler (IPv4 compatible)
+- **Host**: `aws-1-ap-southeast-1.pooler.supabase.com:6543`
+- **Tables**: Auto-created via Django migrations
+- **Features**: Row-Level Security, real-time subscriptions, automatic backups
 
-### Production (Supabase)
-- Execute `supabase_django_migration.sql` in Supabase Dashboard
-- Provides scalability, real-time features, and cloud storage
-- Row-Level Security for data protection
+### Storage (Supabase Storage)
+- **Profile Pictures**: `profile-pictures` bucket (public)
+- **Soil Images**: `soil-images` bucket (public)
+- **CDN Delivery**: Fast global access via Supabase CDN
+- **Security**: RLS policies for user-based access control
 
-### Files
-- `supabase_django_migration.sql` - SQL schema for Supabase
-- `migrate_to_supabase.py` - Helper script to generate migration SQL
+### Setup Steps
+1. Create Supabase project at https://supabase.com
+2. Get credentials (URL, anon key, service key, database password)
+3. Configure `.env` file with credentials
+4. Run migrations: `python manage.py migrate`
+5. Create storage buckets in Supabase Dashboard:
+   - `soil-images` (Public: ON)
+   - `profile-pictures` (Public: ON)
+
+### Configuration Files
+- `config/settings.py` - Database and storage configuration
+- `config/supabase_storage.py` - Custom storage backend for Supabase
+- `.env` - Environment variables (not in git)

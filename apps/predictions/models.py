@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from config.supabase_storage import SoilImageStorage
 
 
 class CropPrediction(models.Model):
@@ -72,6 +73,7 @@ class SoilClassification(models.Model):
     # Input
     soil_image = models.ImageField(
         upload_to='soil_images/%Y/%m/%d/',
+        storage=SoilImageStorage(),
         verbose_name=_('Soil Image')
     )
 

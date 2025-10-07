@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from config.supabase_storage import ProfilePictureStorage
 
 
 class CustomUser(AbstractUser):
@@ -84,6 +85,7 @@ class UserProfile(models.Model):
 
     profile_picture = models.ImageField(
         upload_to='profile_pictures/',
+        storage=ProfilePictureStorage(),
         blank=True,
         null=True,
         verbose_name=_('Profile Picture')
