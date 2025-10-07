@@ -105,17 +105,25 @@ nano .env
 - `SUPABASE_SERVICE_KEY` - Your Supabase service role key
 - `SECRET_KEY` - Django secret key (generate with `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`)
 
-### **Step 4: Setup Supabase**
+### **Step 4: Setup Supabase Database**
 
+**Option 1: Via Supabase Dashboard (Recommended)**
+1. Go to [Supabase SQL Editor](https://supabase.com/dashboard)
+2. Navigate to your project → SQL Editor
+3. Copy contents from `supabase_django_migration.sql`
+4. Paste and click **RUN**
+
+**Option 2: Via Command Line**
 ```bash
-# Run Supabase schema setup
-python scripts/setup_supabase.py
+python migrate_to_supabase.py
+# Follow the instructions to copy SQL to Supabase Dashboard
 ```
 
 This creates:
-- Database tables (user_profiles, predictions, datasets, ml_models, etc.)
+- 5 main tables (user_profiles, crop_predictions, soil_classifications, fertilizer_recommendations, prediction_history)
 - Row-Level Security policies
-- Storage buckets (soil-images, datasets, ml-models)
+- Indexes for performance
+- Storage buckets (soil-images, datasets, ml-models) - Already created
 
 ### **Step 5: Run Migrations**
 
@@ -312,5 +320,25 @@ This project is proprietary software for agricultural use.
 ---
 
 **Version**: 1.0
-**Last Updated**: October 2, 2025
+**Last Updated**: October 7, 2025
 **Status**: Development Ready ✅
+
+---
+
+## 🗃️ Database Setup
+
+The application uses **SQLite** for local development and **Supabase PostgreSQL** for production.
+
+### Local Development (SQLite)
+- Database: `db.sqlite3`
+- Tables auto-created via Django migrations
+- Perfect for testing and development
+
+### Production (Supabase)
+- Execute `supabase_django_migration.sql` in Supabase Dashboard
+- Provides scalability, real-time features, and cloud storage
+- Row-Level Security for data protection
+
+### Files
+- `supabase_django_migration.sql` - SQL schema for Supabase
+- `migrate_to_supabase.py` - Helper script to generate migration SQL

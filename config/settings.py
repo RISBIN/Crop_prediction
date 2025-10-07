@@ -74,14 +74,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Use SQLite for development (default), PostgreSQL for production
 if os.getenv('SUPABASE_DB_HOST'):
     # Supabase PostgreSQL (production)
+    db_host = os.getenv('SUPABASE_DB_HOST', '')
+    # Use pooler format if using pooler host
+    db_user = 'postgres.pmdrcyjklpcrdleiwkws' if 'pooler' in db_host else 'postgres'
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'postgres',
-            'USER': 'postgres',
+            'USER': db_user,
             'PASSWORD': os.getenv('SUPABASE_DB_PASSWORD', ''),
-            'HOST': os.getenv('SUPABASE_DB_HOST', ''),
-            'PORT': '5432',
+            'HOST': db_host,
+            'PORT': os.getenv('SUPABASE_DB_PORT', '6543'),
             'OPTIONS': {
                 'sslmode': 'require',
             },
