@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block title %}Prediction Result - Crop Prediction System{% endblock %}
 
@@ -9,115 +10,210 @@
             <!-- Success Alert -->
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 <h4 class="alert-heading"><i class="fas fa-check-circle me-2"></i>Prediction Successful!</h4>
-                <p class="mb-0">Based on your soil and climate data, here are the crop recommendations.</p>
+                <p class="mb-0">Based on your soil and climate data, our AI model analyzed <strong>101 crops</strong> and identified the best recommendations for your land.</p>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
 
             <!-- Main Result Card -->
-            <div class="card shadow-lg">
-                <div class="card-header bg-success text-white">
-                    <h3 class="mb-0"><i class="fas fa-trophy me-2"></i>Recommended Crop</h3>
+            <div class="card shadow-lg border-success" style="border-width: 3px;">
+                <div class="card-header bg-success text-white py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h3 class="mb-0"><i class="fas fa-trophy me-2"></i>Top Recommendation</h3>
+                        <span class="badge bg-white text-success">Rank #1</span>
+                    </div>
                 </div>
                 <div class="card-body p-5 text-center">
-                    <h1 class="display-3 text-success mb-3">{{ prediction.predicted_crop }}</h1>
+                    <div class="mb-3">
+                        <i class="fas fa-leaf fa-3x text-success"></i>
+                    </div>
+                    <h1 class="display-2 text-success mb-3 fw-bold">{{ prediction.predicted_crop|upper }}</h1>
                     <div class="mb-4">
-                        <span class="badge bg-success fs-5">
-                            Confidence: {{ prediction.confidence_score|floatformat:0 }}%
+                        <span class="badge bg-success fs-4 px-4 py-2">
+                            <i class="fas fa-chart-line me-2"></i>Confidence: {{ prediction.confidence_score|mul:100|floatformat:1 }}%
                         </span>
                     </div>
+                    <p class="text-muted fs-5">This crop is best suited for your soil and climate conditions</p>
                 </div>
             </div>
 
             <!-- Top 3 Recommendations -->
-            <div class="card mt-4">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-list-ol me-2"></i>Top 3 Crop Recommendations</h5>
+            <div class="card mt-4 shadow">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-list-ol me-2"></i>Alternative Recommendations</h5>
+                    <small class="text-muted">Consider these options if the top recommendation doesn't fit your needs</small>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row g-3">
                         {% for crop_data in prediction.top_3_crops %}
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100 border-success">
+                        <div class="col-md-4">
+                            <div class="card h-100 {% if forloop.counter == 1 %}border-success{% elif forloop.counter == 2 %}border-primary{% else %}border-warning{% endif %}" style="border-width: 2px;">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title">{{ crop_data.crop }}</h5>
-                                    <div class="progress mt-3" style="height: 25px;">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                             style="width: {{ crop_data.score|floatformat:0 }}%">
-                                            {{ crop_data.score|floatformat:0 }}%
+                                    <!-- Rank Badge -->
+                                    <div class="mb-2">
+                                        {% if forloop.counter == 1 %}
+                                            <span class="badge bg-success">🥇 Rank #1</span>
+                                        {% elif forloop.counter == 2 %}
+                                            <span class="badge bg-primary">🥈 Rank #2</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark">🥉 Rank #3</span>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Crop Name -->
+                                    <h4 class="card-title mb-3 fw-bold">{{ crop_data.crop|upper }}</h4>
+
+                                    <!-- Confidence Progress Bar -->
+                                    <div class="mb-2">
+                                        <div class="progress" style="height: 30px;">
+                                            <div class="progress-bar {% if forloop.counter == 1 %}bg-success{% elif forloop.counter == 2 %}bg-primary{% else %}bg-warning{% endif %}"
+                                                 role="progressbar"
+                                                 style="width: {{ crop_data.confidence_percent|floatformat:0 }}%"
+                                                 aria-valuenow="{{ crop_data.confidence_percent|floatformat:0 }}"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                                <strong>{{ crop_data.confidence_percent|floatformat:1 }}%</strong>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <!-- Suitability Text -->
+                                    <small class="text-muted">
+                                        {% if crop_data.confidence_percent >= 70 %}
+                                            <i class="fas fa-check-circle text-success"></i> Highly Suitable
+                                        {% elif crop_data.confidence_percent >= 50 %}
+                                            <i class="fas fa-check text-primary"></i> Suitable
+                                        {% else %}
+                                            <i class="fas fa-exclamation-triangle text-warning"></i> Moderately Suitable
+                                        {% endif %}
+                                    </small>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
+
+                    <!-- AI Info -->
+                    <div class="alert alert-info mt-3 mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>AI Analysis:</strong> Our model evaluated <strong>101 different crops</strong> based on your input parameters.
+                        The top 3 recommendations have the highest compatibility with your land conditions.
+                    </div>
                 </div>
             </div>
 
             <!-- Input Parameters -->
-            <div class="card mt-4">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="fas fa-database me-2"></i>Input Parameters</h5>
+            <div class="card mt-4 shadow">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-database me-2"></i>Your Input Parameters</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Soil Parameters -->
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted mb-3"><i class="fas fa-flask me-2"></i>Soil Nutrients</h6>
+                            <table class="table table-sm table-hover">
+                                <tr>
+                                    <th width="50%"><i class="fas fa-circle text-primary me-2" style="font-size: 0.5rem;"></i>Nitrogen (N):</th>
+                                    <td class="fw-bold">{{ prediction.nitrogen }} kg/ha</td>
+                                </tr>
+                                <tr>
+                                    <th><i class="fas fa-circle text-warning me-2" style="font-size: 0.5rem;"></i>Phosphorus (P):</th>
+                                    <td class="fw-bold">{{ prediction.phosphorus }} kg/ha</td>
+                                </tr>
+                                <tr>
+                                    <th><i class="fas fa-circle text-danger me-2" style="font-size: 0.5rem;"></i>Potassium (K):</th>
+                                    <td class="fw-bold">{{ prediction.potassium }} kg/ha</td>
+                                </tr>
+                                <tr>
+                                    <th><i class="fas fa-vial me-2 text-info"></i>pH Value:</th>
+                                    <td class="fw-bold">{{ prediction.ph_value }}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Climate Parameters -->
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted mb-3"><i class="fas fa-cloud-sun me-2"></i>Climate Conditions</h6>
+                            <table class="table table-sm table-hover">
+                                <tr>
+                                    <th width="50%"><i class="fas fa-thermometer-half me-2 text-danger"></i>Temperature:</th>
+                                    <td class="fw-bold">{{ prediction.temperature }}°C</td>
+                                </tr>
+                                <tr>
+                                    <th><i class="fas fa-tint me-2 text-primary"></i>Humidity:</th>
+                                    <td class="fw-bold">{{ prediction.humidity }}%</td>
+                                </tr>
+                                <tr>
+                                    <th><i class="fas fa-cloud-rain me-2 text-info"></i>Rainfall:</th>
+                                    <td class="fw-bold">{{ prediction.rainfall }} mm</td>
+                                </tr>
+                                <tr>
+                                    <th><i class="fas fa-map-marker-alt me-2 text-success"></i>Location:</th>
+                                    <td class="fw-bold">{{ prediction.location|default:"Not specified" }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations & Tips -->
+            <div class="card mt-4 shadow">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Farming Tips</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <table class="table table-sm">
-                                <tr>
-                                    <th>Nitrogen (N):</th>
-                                    <td>{{ prediction.nitrogen }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Phosphorus (P):</th>
-                                    <td>{{ prediction.phosphorus }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Potassium (K):</th>
-                                    <td>{{ prediction.potassium }}</td>
-                                </tr>
-                                <tr>
-                                    <th>pH Value:</th>
-                                    <td>{{ prediction.ph_value }}</td>
-                                </tr>
-                            </table>
+                            <h6 class="text-success"><i class="fas fa-check-circle me-2"></i>Why {{ prediction.predicted_crop }}?</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-arrow-right text-success me-2"></i>Best match for your NPK levels</li>
+                                <li><i class="fas fa-arrow-right text-success me-2"></i>Optimal temperature range</li>
+                                <li><i class="fas fa-arrow-right text-success me-2"></i>Suitable rainfall conditions</li>
+                                <li><i class="fas fa-arrow-right text-success me-2"></i>Compatible with soil pH</li>
+                            </ul>
                         </div>
                         <div class="col-md-6">
-                            <table class="table table-sm">
-                                <tr>
-                                    <th>Temperature:</th>
-                                    <td>{{ prediction.temperature }}°C</td>
-                                </tr>
-                                <tr>
-                                    <th>Humidity:</th>
-                                    <td>{{ prediction.humidity }}%</td>
-                                </tr>
-                                <tr>
-                                    <th>Rainfall:</th>
-                                    <td>{{ prediction.rainfall }} mm</td>
-                                </tr>
-                                <tr>
-                                    <th>Location:</th>
-                                    <td>{{ prediction.location|default:"Not specified" }}</td>
-                                </tr>
-                            </table>
+                            <h6 class="text-primary"><i class="fas fa-info-circle me-2"></i>Next Steps</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-arrow-right text-primary me-2"></i>Consult local agricultural expert</li>
+                                <li><i class="fas fa-arrow-right text-primary me-2"></i>Test soil sample in lab</li>
+                                <li><i class="fas fa-arrow-right text-primary me-2"></i>Check market demand for crops</li>
+                                <li><i class="fas fa-arrow-right text-primary me-2"></i>Plan irrigation and fertilization</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="d-flex gap-2 mt-4 mb-5">
-                <a href="{% url 'predictions:crop_prediction' %}" class="btn btn-primary">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4 mb-5">
+                <a href="{% url 'predictions:crop_prediction' %}" class="btn btn-success btn-lg">
                     <i class="fas fa-redo me-2"></i>New Prediction
                 </a>
-                <a href="{% url 'predictions:history' %}" class="btn btn-secondary">
+                <a href="{% url 'predictions:history' %}" class="btn btn-primary btn-lg">
                     <i class="fas fa-history me-2"></i>View History
                 </a>
-                <a href="{% url 'core:dashboard' %}" class="btn btn-outline-secondary">
+                <a href="{% url 'predictions:soil_classification' %}" class="btn btn-info btn-lg text-white">
+                    <i class="fas fa-microscope me-2"></i>Soil Classification
+                </a>
+                <a href="{% url 'core:dashboard' %}" class="btn btn-outline-secondary btn-lg">
                     <i class="fas fa-home me-2"></i>Dashboard
                 </a>
+            </div>
+
+            <!-- Footer Note -->
+            <div class="alert alert-light border text-center mt-3">
+                <small class="text-muted">
+                    <i class="fas fa-robot me-2"></i>Powered by AI Deep Learning Model |
+                    Trained on 10,100+ samples | 101 Crop Classes |
+                    64% Accuracy | 90% Top-3 Accuracy
+                </small>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Custom Template Filter -->
+{% load custom_filters %}
 {% endblock %}

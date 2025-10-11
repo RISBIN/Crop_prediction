@@ -15,11 +15,18 @@ class SupabaseStorage(Storage):
 
     def __init__(self, bucket_name='soil-images'):
         self.bucket_name = bucket_name
-        self.supabase = create_client(
-            settings.SUPABASE_URL,
-            settings.SUPABASE_KEY
-        )
-        self.base_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/{bucket_name}"
+        try:
+            self.supabase = create_client(
+                settings.SUPABASE_URL,
+                settings.SUPABASE_KEY
+            )
+            self.base_url = f"{settings.SUPABASE_URL}/storage/v1/object/public/{bucket_name}"
+        except Exception as e:
+            # Fallback to None if Supabase fails to initialize
+            print(f"[WARNING] Supabase storage initialization failed: {e}")
+            print("[INFO] Will use local file storage instead")
+            self.supabase = None
+            self.base_url = None
 
     def _save(self, name, content):
         """

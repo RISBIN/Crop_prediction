@@ -27,6 +27,7 @@ env/
 ENV/
 env.bak/
 venv.bak/
+crp-venv/
 
 # Django
 *.log
@@ -51,6 +52,7 @@ db.sqlite3-journal
 
 # Jupyter Notebook
 .ipynb_checkpoints
+*.ipynb
 
 # PyCharm
 .idea/
@@ -83,8 +85,21 @@ test_*.py
 setup_*.py
 check_*.py
 execute_*.py
+analyze_*.py
+evaluate_*.py
+expand_*.py
+quick_test.py
 
-# Documentation (keep only README.md)
+# Temporary training outputs in root
+/*.csv
+/*.pkl
+/*.json
+/*.png
+/*.zip
+/deeplearning_*.csv
+/deeplearning_*.txt
+
+# Documentation (keep only README.md and DOCS/)
 IMPLEMENTATION_STATUS.md
 INSTALLATION_COMPLETE.md
 PREMIUM_UI_PREVIEW.md
@@ -97,6 +112,12 @@ SUCCESS.md
 UI_UPDATE_SUMMARY.md
 SUPABASE_SETUP_INSTRUCTIONS.md
 HOW_TO_*.md
+DJANGO_INTEGRATION_GUIDE.md
+IMPROVEMENTS_ROADMAP.md
+INTEGRATION_COMPLETE.md
+MODEL_PROBLEMS_REPORT.md
+PERMANENT_SOLUTION_PLAN.md
+PREDICTION_RESULTS_SUMMARY.md
 
 # Logs
 logs/
