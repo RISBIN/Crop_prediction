@@ -78,29 +78,51 @@ def soil_classification_view(request):
     if request.method == 'POST':
         form = SoilClassificationForm(request.POST, request.FILES)
         if form.is_valid():
-            # Save the classification with user
-            classification = form.save(commit=False)
-            classification.user = request.user
+            import tempfile
+            import os
+            from django.core.files.uploadedfile import InMemoryUploadedFile
+            from io import BytesIO
 
-            # Get ML classification
-            classifier = get_soil_classifier()
-            result = classifier.classify(classification.soil_image.path)
+            # Get the uploaded file
+            uploaded_file = request.FILES['soil_image']
 
-            # Update classification with results
-            classification.soil_type = result['soil_type']
-            classification.confidence_score = result['confidence_score']
-            classification.all_predictions = result['all_predictions']
-            classification.save()
+            # Read file content into memory
+            file_content = uploaded_file.read()
 
-            # Save to history
-            PredictionHistory.objects.create(
-                user=request.user,
-                prediction_type='soil',
-                result_summary=f"Classified as: {classification.get_soil_type_display()} (Confidence: {result['confidence_score']})"
-            )
+            # Create a temporary file to pass to the classifier
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as tmp_file:
+                tmp_file.write(file_content)
+                tmp_file_path = tmp_file.name
 
-            messages.success(request, f"Classification successful! Soil type: {classification.get_soil_type_display()}")
-            return redirect('predictions:soil_result', pk=classification.pk)
+            try:
+                # Get ML classification
+                classifier = get_soil_classifier()
+                result = classifier.classify(tmp_file_path)
+
+                # Reset the uploaded file for saving
+                uploaded_file.seek(0)
+
+                # Now save the classification with all data
+                classification = form.save(commit=False)
+                classification.user = request.user
+                classification.soil_type = result['soil_type']
+                classification.confidence_score = result['confidence_score']
+                classification.all_predictions = result['all_predictions']
+                classification.save()
+
+                # Save to history
+                PredictionHistory.objects.create(
+                    user=request.user,
+                    prediction_type='soil',
+                    result_summary=f"Classified as: {classification.get_soil_type_display()} (Confidence: {result['confidence_score']*100:.1f}%)"
+                )
+
+                messages.success(request, f"Classification successful! Soil type: {classification.get_soil_type_display()}")
+                return redirect('predictions:soil_result', pk=classification.pk)
+            finally:
+                # Clean up temporary file
+                if os.path.exists(tmp_file_path):
+                    os.unlink(tmp_file_path)
         else:
             messages.error(request, "Please correct the errors below.")
     else:

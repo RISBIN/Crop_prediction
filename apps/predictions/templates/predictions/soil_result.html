@@ -36,7 +36,7 @@
                             <h2 class="text-center mb-4">{{ classification.get_soil_type_display }}</h2>
                             <div class="text-center mb-4">
                                 <span class="badge bg-warning text-dark fs-5">
-                                    Confidence: {{ classification.confidence_score|floatformat:0 }}%
+                                    Confidence: {% widthratio classification.confidence_score 1 100 %}%
                                 </span>
                             </div>
 
@@ -45,11 +45,11 @@
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between mb-1">
                                     <span class="text-capitalize">{{ soil_type }}</span>
-                                    <span>{{ score|floatformat:0 }}%</span>
+                                    <span>{% widthratio score 1 100 %}%</span>
                                 </div>
                                 <div class="progress" style="height: 20px;">
                                     <div class="progress-bar bg-warning" role="progressbar"
-                                         style="width: {{ score|floatformat:0 }}%">
+                                         style="width: {% widthratio score 1 100 %}%">
                                     </div>
                                 </div>
                             </div>

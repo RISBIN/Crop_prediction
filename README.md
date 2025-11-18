@@ -14,6 +14,7 @@ This Django-based web application uses a **Random Forest machine learning model*
 
 - 🎯 **Smart Crop Recommendations** - Predicts best crops with confidence scores
 - 📊 **Top-3 Suggestions** - Shows top 3 crop recommendations for each query
+- 🌱 **Soil Classification** - Image-based soil type detection (4 types) 🆕
 - 🌐 **Web Interface** - User-friendly Django-based web application
 - 🔬 **22 Crop Support** - Trained on real agricultural data
 - ☁️ **Cloud Integration** - Supabase PostgreSQL and Storage support
@@ -115,6 +116,31 @@ python scripts/testing/test_trained_model.py
 
 See [TRAINING_GUIDE.md](docs/TRAINING_GUIDE.md) for detailed instructions.
 
+## 🌱 Soil Classification (New!)
+
+### Train Soil Classification Model
+
+**On Kaggle (Free GPU - Recommended):**
+
+1. Upload notebook: `notebooks/soil_classification_kaggle.ipynb`
+2. Add dataset: [SOIL TYPES DATASET](https://www.kaggle.com/datasets/posthumus/soil-types)
+3. Enable GPU accelerator
+4. Click "Run All"
+5. Download trained model
+
+**Expected Performance:**
+- Target Accuracy: 85-92%
+- Training Time: ~15-20 minutes (with GPU)
+- Model: ResNet18 (Transfer Learning)
+
+**Soil Types Supported:**
+- Black Soil
+- Clay Soil
+- Loamy Soil
+- Sandy Soil
+
+See [SOIL_CLASSIFICATION_KAGGLE_GUIDE.md](docs/SOIL_CLASSIFICATION_KAGGLE_GUIDE.md) for step-by-step instructions.
+
 ## 📊 Model Performance
 
 | Metric | Score |
@@ -153,7 +179,8 @@ Crop_prediction/
 │
 ├── notebooks/                   # Jupyter notebooks
 │   ├── crop_prediction_random_forest_kaggle.ipynb
-│   └── crop_prediction_training_kaggle.ipynb
+│   ├── crop_prediction_training_kaggle.ipynb
+│   └── soil_classification_kaggle.ipynb
 │
 ├── datasets/                    # Data files
 │   ├── crop_data/
@@ -162,11 +189,17 @@ Crop_prediction/
 │       ├── test_samples_real.csv
 │       └── test_samples_real.json
 │
-├── crop-prediction-models/      # Trained models
+├── crop-prediction-models/      # Trained crop models
 │   ├── random_forest_model.pkl
 │   ├── scaler.pkl
 │   ├── label_encoder.pkl
 │   └── metadata.json
+│
+├── ml_models/                   # ML model storage
+│   └── soil_classifier/
+│       └── v1.0/
+│           ├── model.pth        # PyTorch model (train on Kaggle)
+│           └── metadata.json    # Model config
 │
 ├── apps/                        # Django apps
 │   ├── core/                    # Landing pages
@@ -209,10 +242,16 @@ SUPABASE_SERVICE_KEY=your-service-key
 
 ## 📚 Documentation
 
+**Crop Prediction:**
 - [Training Guide](docs/TRAINING_GUIDE.md) - How to train models
 - [Kaggle Notebook Guide](docs/KAGGLE_NOTEBOOK_GUIDE.md) - Train on Kaggle
 - [Dataset Download Guide](docs/DATASET_DOWNLOAD_GUIDE.md) - Get training data
 - [User Testing Guide](docs/USER_TESTING_GUIDE.md) - Test with real samples
+
+**Soil Classification:**
+- [Soil Classification Kaggle Guide](docs/SOIL_CLASSIFICATION_KAGGLE_GUIDE.md) - Train soil model
+
+**For Developers:**
 - [Claude Code Guide](CLAUDE.md) - For AI assistants
 
 ## 🛠️ Tech Stack
@@ -220,7 +259,8 @@ SUPABASE_SERVICE_KEY=your-service-key
 **Backend:**
 - Django 5.0
 - Python 3.11+
-- scikit-learn 1.2.2
+- scikit-learn 1.2.2 (crop prediction)
+- PyTorch + torchvision (soil classification)
 - joblib
 
 **Frontend:**
@@ -236,11 +276,19 @@ SUPABASE_SERVICE_KEY=your-service-key
 - Local filesystem (Development)
 - Supabase Storage (Production)
 
-**ML Model:**
+**ML Models:**
+
+*Crop Prediction:*
 - Random Forest Classifier
 - 100 estimators, max_depth=20
 - StandardScaler normalization
 - 7 original features (no engineering)
+
+*Soil Classification:*
+- ResNet18 (Transfer Learning)
+- PyTorch CNN
+- 4 soil types
+- Image size: 224x224
 
 ## 🤝 Contributing
 
@@ -269,11 +317,12 @@ For issues and questions:
 ## 🎯 Future Enhancements
 
 - [ ] Add more crops (expand beyond 22)
-- [ ] Implement soil classification with images
+- [🚧] Soil classification with images (In Progress - Training stage)
 - [ ] Add weather API integration
 - [ ] Mobile app version
 - [ ] Multi-language support
 - [ ] Export recommendations to PDF
+- [ ] Disease detection from plant images
 
 ---
 

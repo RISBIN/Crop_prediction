@@ -30,7 +30,7 @@ class SupabaseStorage(Storage):
 
     def _save(self, name, content):
         """
-        Save file to Supabase Storage
+        Save file to Supabase Storage or local storage as fallback
         """
         # Generate unique filename
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -42,18 +42,29 @@ class SupabaseStorage(Storage):
         else:
             file_content = content
 
-        try:
-            # Upload to Supabase Storage
-            result = self.supabase.storage.from_(self.bucket_name).upload(
-                path=filename,
-                file=file_content,
-                file_options={"content-type": self._get_content_type(name)}
-            )
-            return filename
-        except Exception as e:
-            print(f"Error uploading to Supabase: {e}")
-            # Fallback to local storage if upload fails
-            return name
+        # Try Supabase if available
+        if self.supabase:
+            try:
+                # Upload to Supabase Storage
+                result = self.supabase.storage.from_(self.bucket_name).upload(
+                    path=filename,
+                    file=file_content,
+                    file_options={"content-type": self._get_content_type(name)}
+                )
+                return filename
+            except Exception as e:
+                print(f"Error uploading to Supabase: {e}")
+
+        # Fallback to local filesystem storage
+        from django.core.files.storage import FileSystemStorage
+        from django.conf import settings
+        local_storage = FileSystemStorage(location=settings.MEDIA_ROOT)
+
+        # Reset content for local storage
+        if hasattr(content, 'seek'):
+            content.seek(0)
+
+        return local_storage.save(name, content)
 
     def _open(self, name, mode='rb'):
         """
@@ -81,7 +92,12 @@ class SupabaseStorage(Storage):
         """
         Return public URL for file
         """
-        return f"{self.base_url}/{name}"
+        if self.base_url:
+            return f"{self.base_url}/{name}"
+        else:
+            # Fallback to local media URL
+            from django.conf import settings
+            return f"{settings.MEDIA_URL}{name}"
 
     def delete(self, name):
         """

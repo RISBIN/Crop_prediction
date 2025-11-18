@@ -1,0 +1,26 @@
+{
+  "model_type": "ResNet18_TransferLearning",
+  "num_classes": 4,
+  "class_names": [
+    "black",
+    "clay",
+    "loamy",
+    "sandy"
+  ],
+  "class_mapping": {
+    "Black Soil": "black",
+    "Clay soil": "clay",
+    "Alluvial soil": "loamy",
+    "Red soil": "sandy"
+  },
+  "img_size": 224,
+  "val_accuracy": 97.36842105263158,
+  "training_date": "2025-11-18T10:41:55.992672",
+  "epochs": 25,
+  "batch_size": 32,
+  "learning_rate": 0.001,
+  "device": "cuda",
+  "dataset": "SOIL TYPES DATASET (Kaggle - jhislainematchouath)",
+  "train_samples": 911,
+  "val_samples": 304
+}
