@@ -1,356 +1,280 @@
-# Crop Prediction Application
+# 🌾 Crop Prediction System
 
-**AI-Powered Crop Recommendation & Soil Classification System**
+AI-powered agricultural decision support system for crop recommendations using machine learning.
 
-Built with Django 5.0 + Supabase + XGBoost + PyTorch
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Django](https://img.shields.io/badge/Django-5.0-green.svg)](https://www.djangoproject.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
----
+## 📋 Overview
 
-## 📋 Project Overview
+This Django-based web application uses a **Random Forest machine learning model** to recommend the most suitable crops based on soil and climate parameters. The model achieves **99% accuracy** on the test set with **100% Top-3 accuracy**.
 
-This application helps farmers make data-driven crop selection decisions using:
-- **Crop Prediction**: 7 soil parameters → 22 crop recommendations (XGBoost)
-- **Soil Classification**: Image upload → 4 soil types (PyTorch CNN)
-- **Fertilizer Recommendations**: Crop-specific NPK guidance
-- **Prediction History**: Track and export predictions
+### Features
 
-**Target Accuracy**: >84% (Crop Prediction), >88% (Soil Classification)
-
----
-
-## 🛠️ Technology Stack
-
-- **Frontend**: Django Templates + Bootstrap 5
-- **Backend**: Django 5.0 + Python 3.11+
-- **Database**: Supabase PostgreSQL 16+
-- **Storage**: Supabase Storage (S3-compatible)
-- **Auth**: Supabase Auth
-- **ML**: XGBoost 2.0 (Crop) + PyTorch 2.1 (Soil)
-
----
-
-## 📁 Project Structure
-
-```
-crop_prediction_app/
-├── manage.py
-├── requirements.txt
-├── .env (create from .env.example)
-├── .gitignore
-├── config/                    # Django settings
-│   ├── __init__.py
-│   ├── settings.py
-│   ├── urls.py
-│   ├── wsgi.py
-│   └── asgi.py
-├── apps/                      # Django applications
-│   ├── core/                  # Landing page, base templates
-│   ├── accounts/              # User auth, registration, profile
-│   ├── predictions/           # Crop prediction, ML models
-│   └── admin_panel/           # Dataset & model management
-├── ml_models/                 # Trained ML models
-│   ├── crop_predictor/v1.0/
-│   └── soil_classifier/v1.0/
-├── datasets/                  # Training datasets
-│   ├── crop_data/
-│   └── soil_images/
-├── media/                     # User uploads
-├── staticfiles/               # Collected static files
-├── logs/                      # Application logs
-├── scripts/                   # Utility scripts
-└── templates/                 # Base templates
-```
-
----
+- 🎯 **Smart Crop Recommendations** - Predicts best crops with confidence scores
+- 📊 **Top-3 Suggestions** - Shows top 3 crop recommendations for each query
+- 🌐 **Web Interface** - User-friendly Django-based web application
+- 🔬 **22 Crop Support** - Trained on real agricultural data
+- ☁️ **Cloud Integration** - Supabase PostgreSQL and Storage support
+- 📱 **Responsive Design** - Bootstrap 5 UI with mobile support
 
 ## 🚀 Quick Start
 
-### **Step 1: Prerequisites**
+### Prerequisites
 
-- Python 3.11+ installed
-- Git installed
-- Supabase account (free tier): https://supabase.com
+- Python 3.11+
+- Virtual environment (recommended)
 
-### **Step 2: Clone & Setup**
+### Installation
 
 ```bash
-cd /home/user/Desktop/Crop_Prediction/crop_prediction_app
+# Clone repository
+git clone https://github.com/yourusername/crop-prediction.git
+cd Crop_prediction
 
 # Create virtual environment
-python3.11 -m venv venv
+python -m venv crp-venv
 
 # Activate virtual environment
-source venv/bin/activate  # Linux/Mac
-# OR
-venv\Scripts\activate  # Windows
+# Windows:
+crp-venv\Scripts\activate
+# Linux/Mac:
+source crp-venv/bin/activate
 
 # Install dependencies
-pip install --upgrade pip
 pip install -r requirements.txt
-```
 
-### **Step 3: Configure Environment**
-
-```bash
-# Copy environment template
-cp .env.example .env
-
-# Edit .env with your credentials
-nano .env
-```
-
-**Required environment variables:**
-- `SUPABASE_URL` - Your Supabase project URL
-- `SUPABASE_KEY` - Your Supabase anon key
-- `SUPABASE_SERVICE_KEY` - Your Supabase service role key
-- `SECRET_KEY` - Django secret key (generate with `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`)
-
-### **Step 4: Setup Supabase**
-
-**Configure Supabase Connection:**
-Update `.env` with your Supabase credentials:
-```bash
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your_anon_key
-SUPABASE_SERVICE_KEY=your_service_key
-SUPABASE_DB_PASSWORD=your_database_password
-SUPABASE_DB_HOST=aws-1-ap-southeast-1.pooler.supabase.com
-SUPABASE_DB_PORT=6543
-```
-
-**Create Storage Buckets:**
-1. Go to Supabase Dashboard → Storage
-2. Create two public buckets:
-   - `soil-images` (Public: ON)
-   - `profile-pictures` (Public: ON)
-
-### **Step 5: Run Migrations**
-
-```bash
-# Apply migrations to Supabase
+# Run migrations
 python manage.py migrate
 
-# Create superuser for admin access
-python manage.py createsuperuser
-```
-
-### **Step 6: Collect Static Files**
-
-```bash
-python manage.py collectstatic --noinput
-```
-
-### **Step 7: Run Development Server**
-
-```bash
-python manage.py runserver 0.0.0.0:8000
-```
-
-Visit: **http://127.0.0.1:8000/**
-
-**Login Credentials (if using demo data):**
-- Farmer: `farmer1` / `farmer123`
-- Admin: `admin` / `admin123`
-
----
-
-## 📊 Training ML Models
-
-### **Crop Prediction Model (XGBoost)**
-
-```bash
-# Place dataset in datasets/crop_data/train.csv
-# Expected columns: N, P, K, temperature, humidity, ph, rainfall, label
-
-python scripts/train_crop_model.py
-```
-
-**Expected output:**
-- Model saved to: `ml_models/crop_predictor/v1.0/model.pkl`
-- Accuracy: >84%
-
-### **Soil Classification Model (PyTorch CNN)**
-
-```bash
-# Place images in datasets/soil_images/train/{Black,Clay,Loamy,Sandy}/
-
-python scripts/train_soil_model.py
-```
-
-**Expected output:**
-- Model saved to: `ml_models/soil_classifier/v1.0/model.pth`
-- Accuracy: >88%
-
----
-
-## 🔐 First-Time Setup Checklist
-
-- [ ] Create Supabase project
-- [ ] Get API credentials (URL, anon key, service key)
-- [ ] Configure `.env` file
-- [ ] Run `python scripts/setup_supabase.py`
-- [ ] Run Django migrations
-- [ ] Train ML models OR download pre-trained models
-- [ ] Create first admin user (via Supabase SQL: `UPDATE user_profiles SET role='admin' WHERE email='your-email@example.com'`)
-- [ ] Start development server
-
----
-
-## 📝 Key Features
-
-### **User Features:**
-- ✅ Registration & Login (Supabase Auth)
-- ✅ Crop Prediction Form (7 soil parameters)
-- ✅ Soil Image Upload & Classification
-- ✅ Top 3 Crop Recommendations
-- ✅ Fertilizer Recommendations
-- ✅ Prediction History with Filters
-- ✅ Export to PDF/CSV
-- ✅ User Feedback System
-
-### **Admin Features:**
-- ✅ Upload Training Datasets (CSV/ZIP)
-- ✅ Train ML Models (XGBoost/PyTorch)
-- ✅ Monitor Training Progress
-- ✅ Evaluate Model Performance
-- ✅ Deploy Models
-- ✅ View Analytics & Logs
-
----
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-pytest
-
-# Run with coverage
-pytest --cov=apps --cov-report=html
-
-# View coverage report
-open htmlcov/index.html
-```
-
----
-
-## 📦 Deployment
-
-### **Local Development**
-```bash
+# Start development server
 python manage.py runserver
 ```
 
-### **Production (Gunicorn + Nginx)**
+Visit: `http://127.0.0.1:8000`
+
+## 🧪 Testing the Model
+
+### Use Real Test Data
+
+We provide verified test samples for accurate predictions:
+
+```python
+# Example test values (Rice - 95% confidence)
+N=90, P=42, K=43
+Temperature=21°C, Humidity=82%, pH=6.5, Rainfall=203mm
+```
+
+**Test Data Location:**
+- `datasets/test_samples/test_samples_real.csv` - 66 verified samples
+- `datasets/test_samples/test_samples_real.json` - JSON format
+
+**Run Tests:**
 ```bash
-# Update .env: DEBUG=False
-gunicorn config.wsgi:application --bind 0.0.0.0:8000
+# Test Django predictor
+python scripts/testing/test_django_predictor.py
+
+# Test with user samples
+python scripts/testing/test_user_samples.py
 ```
 
-**Deployment Options:**
-- PythonAnywhere (easiest for Django)
-- Railway
-- Heroku
-- AWS EC2
-- Google Cloud Run
+See [USER_TESTING_GUIDE.md](docs/USER_TESTING_GUIDE.md) for more examples.
 
----
+## 🎓 Model Training
 
-## 📖 API Documentation
+### Option 1: Use Pre-trained Model (Recommended)
 
-### **Prediction API**
-- `POST /predictions/create/` - Create new prediction
-- `GET /predictions/{id}/` - Get prediction results
-- `GET /predictions/history/` - List user's predictions
-- `POST /predictions/{id}/feedback/` - Submit user feedback
+The repository includes a trained Random Forest model in `crop-prediction-models/`:
+- `random_forest_model.pkl` - Trained model (99% accuracy)
+- `scaler.pkl` - Feature scaler
+- `label_encoder.pkl` - Crop encoder
+- `metadata.json` - Model info
 
-### **Admin API**
-- `POST /admin-panel/datasets/upload/` - Upload dataset
-- `POST /admin-panel/models/train/` - Start training
-- `GET /admin-panel/models/{id}/status/` - Get training progress
-- `POST /admin-panel/models/{id}/deploy/` - Deploy model
+### Option 2: Train Your Own Model
 
----
+**On Kaggle (Free GPU):**
 
-## 🐛 Troubleshooting
+1. Upload notebook: `notebooks/crop_prediction_random_forest_kaggle.ipynb`
+2. Add dataset: [Crop Recommendation Dataset](https://www.kaggle.com/datasets/atharvaingle/crop-recommendation-dataset)
+3. Click "Restart & Run All"
+4. Download trained models
 
-### **Database Connection Error**
-```
-Solution: Check SUPABASE_URL and database credentials in .env
-```
+**Locally:**
 
-### **Model Not Found**
-```
-Solution: Train models using scripts/train_*.py or download pre-trained models
+```bash
+# Generate sample dataset (optional)
+python scripts/training/generate_sample_dataset.py
+
+# Train model
+python scripts/training/train_crop_model.py
+
+# Test model
+python scripts/testing/test_trained_model.py
 ```
 
-### **Import Error: supabase**
+See [TRAINING_GUIDE.md](docs/TRAINING_GUIDE.md) for detailed instructions.
+
+## 📊 Model Performance
+
+| Metric | Score |
+|--------|-------|
+| Test Accuracy | 99.09% |
+| Top-3 Accuracy | 100% |
+| Training Samples | 2,200 |
+| Crops Supported | 22 |
+
+**Supported Crops:**
+apple, banana, blackgram, chickpea, coconut, coffee, cotton, grapes, jute, kidneybeans, lentil, maize, mango, mothbeans, mungbean, muskmelon, orange, papaya, pigeonpeas, pomegranate, rice, watermelon
+
+## 🏗️ Project Structure
+
 ```
-Solution: pip install supabase==2.3.0
+Crop_prediction/
+├── README.md                    # This file
+├── requirements.txt             # Python dependencies
+├── manage.py                    # Django management
+│
+├── docs/                        # Documentation
+│   ├── TRAINING_GUIDE.md
+│   ├── KAGGLE_NOTEBOOK_GUIDE.md
+│   ├── DATASET_DOWNLOAD_GUIDE.md
+│   └── USER_TESTING_GUIDE.md
+│
+├── scripts/                     # Utility scripts
+│   ├── training/                # Model training
+│   │   ├── train_crop_model.py
+│   │   ├── generate_sample_dataset.py
+│   │   └── extract_test_samples.py
+│   └── testing/                 # Testing scripts
+│       ├── test_django_predictor.py
+│       ├── test_user_samples.py
+│       └── test_trained_model.py
+│
+├── notebooks/                   # Jupyter notebooks
+│   ├── crop_prediction_random_forest_kaggle.ipynb
+│   └── crop_prediction_training_kaggle.ipynb
+│
+├── datasets/                    # Data files
+│   ├── crop_data/
+│   │   └── Crop_recommendation.csv
+│   └── test_samples/
+│       ├── test_samples_real.csv
+│       └── test_samples_real.json
+│
+├── crop-prediction-models/      # Trained models
+│   ├── random_forest_model.pkl
+│   ├── scaler.pkl
+│   ├── label_encoder.pkl
+│   └── metadata.json
+│
+├── apps/                        # Django apps
+│   ├── core/                    # Landing pages
+│   ├── accounts/                # User management
+│   ├── predictions/             # ML predictions
+│   └── admin_panel/             # Admin features
+│
+├── config/                      # Django settings
+│   ├── settings.py
+│   ├── urls.py
+│   └── supabase_storage.py
+│
+├── static/                      # Static files
+├── media/                       # Uploaded files
+└── logs/                        # Application logs
 ```
 
-### **Static Files Not Loading**
+## 🔧 Configuration
+
+### Environment Variables
+
+Create `.env` file (use `.env.example` as template):
+
+```bash
+# Django
+SECRET_KEY=your-secret-key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# Supabase (Optional)
+SUPABASE_URL=your-supabase-url
+SUPABASE_KEY=your-anon-key
+SUPABASE_SERVICE_KEY=your-service-key
 ```
-Solution: python manage.py collectstatic --noinput
-```
 
----
+### Database
 
-## 📞 Support
+- **Development:** SQLite (default)
+- **Production:** Supabase PostgreSQL
 
-- **Documentation**: `/DOCS/MASTER_PRD_FINAL.md`
-- **Django Docs**: https://docs.djangoproject.com/
-- **Supabase Docs**: https://supabase.com/docs
+## 📚 Documentation
 
----
+- [Training Guide](docs/TRAINING_GUIDE.md) - How to train models
+- [Kaggle Notebook Guide](docs/KAGGLE_NOTEBOOK_GUIDE.md) - Train on Kaggle
+- [Dataset Download Guide](docs/DATASET_DOWNLOAD_GUIDE.md) - Get training data
+- [User Testing Guide](docs/USER_TESTING_GUIDE.md) - Test with real samples
+- [Claude Code Guide](CLAUDE.md) - For AI assistants
+
+## 🛠️ Tech Stack
+
+**Backend:**
+- Django 5.0
+- Python 3.11+
+- scikit-learn 1.2.2
+- joblib
+
+**Frontend:**
+- Bootstrap 5
+- Django Templates
+- Crispy Forms
+
+**Database:**
+- SQLite (Development)
+- Supabase PostgreSQL (Production)
+
+**Storage:**
+- Local filesystem (Development)
+- Supabase Storage (Production)
+
+**ML Model:**
+- Random Forest Classifier
+- 100 estimators, max_depth=20
+- StandardScaler normalization
+- 7 original features (no engineering)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is proprietary software for agricultural use.
+This project is licensed under the MIT License.
+
+## 👥 Authors
+
+- Your Name - Initial work
+
+## 🙏 Acknowledgments
+
+- Dataset: [Crop Recommendation Dataset](https://www.kaggle.com/datasets/atharvaingle/crop-recommendation-dataset) by Atharva Ingle
+- Kaggle community for the dataset
+- Django and scikit-learn teams
+
+## 📞 Support
+
+For issues and questions:
+- Open an issue on GitHub
+- Check documentation in `docs/`
+
+## 🎯 Future Enhancements
+
+- [ ] Add more crops (expand beyond 22)
+- [ ] Implement soil classification with images
+- [ ] Add weather API integration
+- [ ] Mobile app version
+- [ ] Multi-language support
+- [ ] Export recommendations to PDF
 
 ---
 
-## 🎯 Roadmap
-
-- [x] Phase 1: Project Setup
-- [x] Phase 2: Core App Development
-- [x] Phase 3: ML Model Integration
-- [ ] Phase 4: Production Deployment
-- [ ] Phase 5: Mobile App (React Native)
-
----
-
-**Version**: 1.0
-**Last Updated**: October 7, 2025
-**Status**: Development Ready ✅
-
----
-
-## 🗃️ Database & Storage Setup
-
-The application uses **Supabase PostgreSQL** for database and **Supabase Storage** for file uploads.
-
-### Database (Supabase PostgreSQL)
-- **Connection**: Via pooler (IPv4 compatible)
-- **Host**: `aws-1-ap-southeast-1.pooler.supabase.com:6543`
-- **Tables**: Auto-created via Django migrations
-- **Features**: Row-Level Security, real-time subscriptions, automatic backups
-
-### Storage (Supabase Storage)
-- **Profile Pictures**: `profile-pictures` bucket (public)
-- **Soil Images**: `soil-images` bucket (public)
-- **CDN Delivery**: Fast global access via Supabase CDN
-- **Security**: RLS policies for user-based access control
-
-### Setup Steps
-1. Create Supabase project at https://supabase.com
-2. Get credentials (URL, anon key, service key, database password)
-3. Configure `.env` file with credentials
-4. Run migrations: `python manage.py migrate`
-5. Create storage buckets in Supabase Dashboard:
-   - `soil-images` (Public: ON)
-   - `profile-pictures` (Public: ON)
-
-### Configuration Files
-- `config/settings.py` - Database and storage configuration
-- `config/supabase_storage.py` - Custom storage backend for Supabase
-- `.env` - Environment variables (not in git)
+**Made with ❤️ for sustainable agriculture**

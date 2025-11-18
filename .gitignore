@@ -139,3 +139,10 @@ coverage.xml
 # Backup files
 *.sql.backup
 *.db.backup
+
+# Additional ignores
+trained-outputs/
+README.md.old
+FIX_SUMMARY.md
+NEXT_STEPS.md
+nul

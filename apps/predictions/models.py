@@ -73,7 +73,6 @@ class SoilClassification(models.Model):
     # Input
     soil_image = models.ImageField(
         upload_to='soil_images/%Y/%m/%d/',
-        storage=SoilImageStorage(),
         verbose_name=_('Soil Image')
     )
 

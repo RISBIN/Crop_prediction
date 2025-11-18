@@ -1,7 +1,7 @@
 """
-Crop Prediction Service - 101 Crops Production Model
-=====================================================
-Uses trained Deep Learning model with 101 crops.
+Crop Prediction Service - Random Forest Production Model
+=========================================================
+Uses trained Random Forest model with 22 crops.
 Provides Top-3 crop recommendations with confidence scores.
 """
 
@@ -11,22 +11,16 @@ import os
 from pathlib import Path
 
 # Lazy imports for ML libraries (loaded only when needed)
-_tf = None
-_keras = None
 _joblib = None
 
 
 def _load_ml_libraries():
     """Lazy load ML libraries to improve startup time."""
-    global _tf, _keras, _joblib
-    if _tf is None:
-        import tensorflow as tf
-        from tensorflow import keras
+    global _joblib
+    if _joblib is None:
         import joblib
-        _tf = tf
-        _keras = keras
         _joblib = joblib
-    return _tf, _keras, _joblib
+    return _joblib
 
 
 class CropPredictor:
@@ -34,10 +28,11 @@ class CropPredictor:
     Production Crop Predictor Service.
 
     Features:
-    - 101 crop classes (expanded from 22)
-    - Deep Learning MLP model
+    - 22 crop classes
+    - Random Forest Classifier
     - Top-3 recommendations with confidence scores
-    - Feature engineering (15 features from 7 inputs)
+    - 7 original features (NO feature engineering)
+    - 99% test accuracy, 100% Top-3 accuracy
     """
 
     def __init__(self):
@@ -46,27 +41,27 @@ class CropPredictor:
         self.scaler = None
         self.label_encoder = None
         self.is_trained = False
-        self.num_crops = 101
+        self.num_crops = 22
         self.crops_list = []
 
         # Lazy loading - load model on first prediction
         self._model_loaded = False
 
     def _load_model(self):
-        """Load the trained model and preprocessing artifacts."""
+        """Load the trained Random Forest model and preprocessing artifacts."""
         if self._model_loaded:
             return
 
         try:
             # Load ML libraries
-            tf, keras, joblib = _load_ml_libraries()
+            joblib = _load_ml_libraries()
 
             # Get base directory
             base_dir = Path(__file__).resolve().parent.parent.parent.parent
-            model_dir = base_dir / 'ml_models'
+            model_dir = base_dir / 'crop-prediction-models'
 
             # Check if models exist
-            model_path = model_dir / 'best_crop_model.h5'
+            model_path = model_dir / 'random_forest_model.pkl'
             scaler_path = model_dir / 'scaler.pkl'
             encoder_path = model_dir / 'label_encoder.pkl'
 
@@ -74,9 +69,9 @@ class CropPredictor:
                 raise FileNotFoundError(f"Model not found at {model_path}")
 
             # Load model
-            print(f"Loading crop prediction model from {model_path}...")
-            self.model = keras.models.load_model(str(model_path))
-            print("[OK] Model loaded successfully")
+            print(f"[INFO] Loading Random Forest model from {model_path}...")
+            self.model = joblib.load(str(model_path))
+            print("[OK] Random Forest model loaded successfully")
 
             # Load preprocessing artifacts
             self.scaler = joblib.load(str(scaler_path))
@@ -126,7 +121,7 @@ class CropPredictor:
             return self._mock_prediction(features)
 
         try:
-            # Extract features
+            # Extract 7 original features (NO engineering!)
             N = features.get('nitrogen', 0)
             P = features.get('phosphorus', 0)
             K = features.get('potassium', 0)
@@ -135,14 +130,14 @@ class CropPredictor:
             ph = features.get('ph_value', 0)
             rainfall = features.get('rainfall', 0)
 
-            # Engineer features (same as training)
-            X = self._engineer_features(N, P, K, temperature, humidity, ph, rainfall)
+            # Create feature array (7 features only)
+            X = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
 
             # Scale features
             X_scaled = self.scaler.transform(X)
 
             # Predict probabilities
-            proba = self.model.predict(X_scaled, verbose=0)[0]
+            proba = self.model.predict_proba(X_scaled)[0]
 
             # Get top 3 predictions
             top3_idx = np.argsort(proba)[-3:][::-1]
@@ -172,54 +167,6 @@ class CropPredictor:
             print(f"[ERROR] Prediction failed: {e}")
             return self._mock_prediction(features)
 
-    def _engineer_features(self, N, P, K, temperature, humidity, ph, rainfall):
-        """
-        Engineer features to match training data.
-        Transforms 7 input features into 15 features.
-        """
-        features = [
-            N,
-            P,
-            K,
-            temperature,
-            humidity,
-            ph,
-            rainfall,
-            # Engineered features
-            N + P + K,  # NPK_sum
-            N / (P + 0.01),  # N_P_ratio
-            N / (K + 0.01),  # N_K_ratio
-            P / (K + 0.01),  # P_K_ratio
-            temperature * humidity / 100,  # temp_humidity
-            rainfall * humidity / 100,  # rainfall_humidity
-            self._encode_temperature_category(temperature),  # temp_cat_encoded
-            self._encode_rainfall_category(rainfall)  # rain_cat_encoded
-        ]
-
-        return np.array(features).reshape(1, -1)
-
-    def _encode_temperature_category(self, temp):
-        """Encode temperature into categories."""
-        if temp < 15:
-            return 0  # cold
-        elif temp < 25:
-            return 1  # cool
-        elif temp < 35:
-            return 2  # warm
-        else:
-            return 3  # hot
-
-    def _encode_rainfall_category(self, rainfall):
-        """Encode rainfall into categories."""
-        if rainfall < 100:
-            return 0  # low
-        elif rainfall < 200:
-            return 1  # medium
-        elif rainfall < 300:
-            return 2  # high
-        else:
-            return 3  # very_high
-
     def _mock_prediction(self, features: Dict[str, float]) -> Dict:
         """
         Fallback mock prediction when model is not available.
@@ -227,11 +174,12 @@ class CropPredictor:
         """
         import random
 
+        # Actual 22 crops from trained model
         CROPS = [
-            'Rice', 'Wheat', 'Maize', 'Cotton', 'Sugarcane', 'Chickpea',
-            'Kidney Beans', 'Pigeon Peas', 'Banana', 'Mango', 'Grapes',
-            'Orange', 'Papaya', 'Coconut', 'Pomegranate', 'Apple', 'Coffee',
-            'Barley', 'Peas', 'Soybean', 'Sunflower', 'Potato', 'Tomato'
+            'Apple', 'Banana', 'Blackgram', 'Chickpea', 'Coconut', 'Coffee',
+            'Cotton', 'Grapes', 'Jute', 'Kidneybeans', 'Lentil', 'Maize',
+            'Mango', 'Mothbeans', 'Mungbean', 'Muskmelon', 'Orange', 'Papaya',
+            'Pigeonpeas', 'Pomegranate', 'Rice', 'Watermelon'
         ]
 
         # Extract features
@@ -329,17 +277,16 @@ def get_all_crops() -> List[str]:
     Get list of all available crops.
 
     Returns:
-        List of crop names
+        List of crop names (22 crops from trained model)
     """
     predictor = get_crop_predictor()
     if predictor.is_trained and predictor.crops_list:
         return [crop.capitalize() for crop in predictor.crops_list]
     else:
-        # Fallback list
+        # Fallback list - 22 actual crops from dataset
         return [
-            'Rice', 'Wheat', 'Maize', 'Cotton', 'Sugarcane', 'Barley',
-            'Chickpea', 'Kidney Beans', 'Pigeon Peas', 'Lentil', 'Peas',
-            'Banana', 'Mango', 'Grapes', 'Orange', 'Papaya', 'Coconut',
-            'Pomegranate', 'Apple', 'Coffee', 'Soybean', 'Sunflower',
-            'Potato', 'Tomato', 'Onion', 'Garlic'
+            'Apple', 'Banana', 'Blackgram', 'Chickpea', 'Coconut', 'Coffee',
+            'Cotton', 'Grapes', 'Jute', 'Kidneybeans', 'Lentil', 'Maize',
+            'Mango', 'Mothbeans', 'Mungbean', 'Muskmelon', 'Orange', 'Papaya',
+            'Pigeonpeas', 'Pomegranate', 'Rice', 'Watermelon'
         ]
